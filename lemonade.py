@@ -413,7 +413,6 @@ def main():
             
             for i in range(n):
                 assets[i] = assets[i] + 0.000000001  # Prevent exact zero
-                glasses_made[i] = 1
                 high_temp[i] = 0
                 
                 sti = format_money(assets[i])
@@ -504,12 +503,17 @@ def main():
                 print("UNFORTUNATELY, EVERYTHING WAS RUINED!!")
                 for j in range(n):
                     glasses_made[j] = 0
+            else:
+                # Set glasses_made to actual lemonade made
+                for j in range(n):
+                    glasses_made[j] = lemonade[j]
             
             print()
             
-            # Check for street crew event
-            r2 = 0
+            # Check for street crew event (preserve r2 if set)
+            street_crew_event = False
             if 'r2' in locals() and r2 == 2:
+                street_crew_event = True
                 print("THE STREET CREWS BOUGHT ALL YOUR")
                 print("LEMONADE AT LUNCHTIME!!")
             
@@ -520,7 +524,7 @@ def main():
                 if assets[i] < 0:
                     assets[i] = 0
                 
-                if 'r2' in locals() and r2 == 2:
+                if street_crew_event:
                     n2 = lemonade[i]
                 elif x3 == 1:
                     n2 = 0
@@ -575,7 +579,6 @@ def main():
             
             # Reset for next day
             r1 = 1
-            r2 = 0
             if 'r2' in locals():
                 del r2
         
@@ -600,7 +603,7 @@ def main():
                         continue
                 finally:
                     termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-        except:
+        except (EOFError, OSError, KeyboardInterrupt):
             response = input()
             if response.strip().upper().startswith('Y'):
                 continue
