@@ -413,6 +413,7 @@ def main():
             
             for i in range(n):
                 assets[i] = assets[i] + 0.000000001  # Prevent exact zero
+                glasses_made[i] = 1  # G(I) multiplier - 1 for normal, 0 for thunderstorm
                 high_temp[i] = 0
                 
                 sti = format_money(assets[i])
@@ -502,11 +503,7 @@ def main():
                 print("THE LEMONADE STANDS WERE BEING SET UP.")
                 print("UNFORTUNATELY, EVERYTHING WAS RUINED!!")
                 for j in range(n):
-                    glasses_made[j] = 0
-            else:
-                # Set glasses_made to actual lemonade made
-                for j in range(n):
-                    glasses_made[j] = lemonade[j]
+                    glasses_made[j] = 0  # G(J) = 0 in BASIC
             
             print()
             
